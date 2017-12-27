@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Wiki where
 
 import Reddit.Parser

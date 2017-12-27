@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE Rank2Types #-}
+
 module Reddit.Actions.CaptchaSpec where
 
 import Reddit.Actions.Captcha

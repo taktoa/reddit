@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Types.UserSpec where
 
 import Reddit.Types.User

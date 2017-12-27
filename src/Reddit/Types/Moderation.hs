@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Moderation where
 
 import Reddit.Parser

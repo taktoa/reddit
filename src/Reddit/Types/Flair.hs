@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Flair where
 
 import Reddit.Types.Listing

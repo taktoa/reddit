@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 -- | Utilities for parsing JSON responses from the API
 module Reddit.Parser
   ( ensureKind

@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Actions.SearchSpec where
 
 import Reddit

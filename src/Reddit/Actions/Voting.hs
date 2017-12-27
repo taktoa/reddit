@@ -12,7 +12,8 @@ module Reddit.Actions.Voting
   , unvotePost
   , upvoteComment
   , downvoteComment
-  , unvoteComment ) where
+  , unvoteComment
+  ) where
 
 import Reddit.Routes.Vote (VoteDirection(..))
 import Reddit.Types
@@ -20,29 +21,44 @@ import Reddit.Types.Empty
 import Reddit.Types.Reddit
 import qualified Reddit.Routes as Route
 
-vote :: (Monad m, Thing a) => VoteDirection -> a -> RedditT m ()
+vote :: (Monad m, Thing thing)
+     => VoteDirection
+     -> thing
+     -> RedditT m ()
 vote dir = nothing . runRoute . Route.vote dir
 
 -- | Upvote a post.
-upvotePost :: Monad m => PostID -> RedditT m ()
+upvotePost :: (Monad m)
+           => PostID
+           -> RedditT m ()
 upvotePost = vote UpVote
 
 -- | Downvote a post.
-downvotePost :: Monad m => PostID -> RedditT m ()
+downvotePost :: (Monad m)
+             => PostID
+             -> RedditT m ()
 downvotePost = vote DownVote
 
 -- | Remove a vote from a post.
-unvotePost :: Monad m => PostID -> RedditT m ()
+unvotePost :: (Monad m)
+           => PostID
+           -> RedditT m ()
 unvotePost = vote RemoveVote
 
 -- | Upvote a comment.
-upvoteComment :: Monad m => CommentID -> RedditT m ()
+upvoteComment :: (Monad m)
+              => CommentID
+              -> RedditT m ()
 upvoteComment = vote UpVote
 
 -- | Downvote a comment.
-downvoteComment :: Monad m => CommentID -> RedditT m ()
+downvoteComment :: (Monad m)
+                => CommentID
+                -> RedditT m ()
 downvoteComment = vote RemoveVote
 
 -- | Remove a previously-cast vote from a comment.
-unvoteComment :: Monad m => CommentID -> RedditT m ()
+unvoteComment :: (Monad m)
+              => CommentID
+              -> RedditT m ()
 unvoteComment = vote DownVote

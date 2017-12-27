@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.User where
 
 import Reddit.Types.Comment (CommentID)

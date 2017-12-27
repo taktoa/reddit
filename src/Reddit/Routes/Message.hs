@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Message where
 
 import Reddit.Types.Options

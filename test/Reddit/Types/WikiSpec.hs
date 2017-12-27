@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Types.WikiSpec where
 
 import Test.Hspec

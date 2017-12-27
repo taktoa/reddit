@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Types.PostSpec where
 
 import Reddit.Types.Post

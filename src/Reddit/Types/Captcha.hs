@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
 module Reddit.Types.Captcha where
 
 import Reddit.Types.Reddit
@@ -15,10 +17,18 @@ newtype CaptchaID = CaptchaID Text
 instance FromJSON CaptchaID where
   parseJSON j = CaptchaID <$> parseJSON j
 
+instance ToJSON CaptchaID where
+  toJSON (CaptchaID t) = toJSON t
+
 instance FromJSON (POSTWrapped CaptchaID) where
   parseJSON (Object o) =
     POSTWrapped <$> ((o .: "json") >>= (.: "data") >>= (.: "iden"))
   parseJSON _ = mempty
+
+instance ToJSON (POSTWrapped CaptchaID) where
+  toJSON (POSTWrapped (CaptchaID t))
+    = let wrap key value = object [key .= value]
+      in wrap "json" (wrap "data" (wrap "iden" (toJSON t)))
 
 withCaptcha :: Route -> (CaptchaID, Text) -> Route
 withCaptcha (Route pieces params meth) (CaptchaID i, c) =

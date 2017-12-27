@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
 module Reddit.Types.Comment where
 
 import Reddit.Parser
@@ -26,9 +28,11 @@ newtype CommentID = CommentID Text
   deriving (Show, Read, Eq, Ord)
 
 instance FromJSON CommentID where
-  parseJSON (String s) =
+  parseJSON = withText "CommentID" $ \s -> do
     CommentID <$> stripPrefix commentPrefix s
-  parseJSON _ = mempty
+
+instance ToJSON CommentID where
+  toJSON (CommentID s) = toJSON (commentPrefix <> s)
 
 instance Thing CommentID where
   fullName (CommentID cID) = Text.concat [commentPrefix, "_", cID]
@@ -37,67 +41,68 @@ instance ToQuery CommentID where
   toQuery k v = [(k, fullName v)]
 
 instance FromJSON (POSTWrapped CommentID) where
-  parseJSON (Object o) = do
+  parseJSON = withObject "POSTWrapped CommentID" $ \o -> do
     ts <- (o .: "json") >>= (.: "data") >>= (.: "things")
     case Vector.toList ts of
-      [v] -> POSTWrapped <$> (v .: "data" >>= (.: "id"))
-      _ -> mempty
-  parseJSON _ = mempty
+      [v] -> POSTWrapped <$> ((v .: "data") >>= (.: "id"))
+      _   -> mempty
 
-data CommentReference = Reference Integer [CommentID]
-                      | Actual Comment
+data CommentReference
+  = Reference Integer [CommentID]
+  | Actual Comment
   deriving (Show, Read, Eq)
 
 instance FromJSON CommentReference where
-  parseJSON v@(Object o) = do
+  parseJSON = withObject "CommentReference" $ \o -> do
     k <- o .: "kind"
     case k of
-      String "t1" -> Actual <$> parseJSON v
-      String "more" ->
-        Reference <$> ((o .: "data") >>= (.: "count"))
-                  <*> ((o .: "data") >>= (.: "children"))
-      _ -> mempty
-  parseJSON _ = mempty
+      String "t1"   -> Actual <$> parseJSON (Object o)
+      String "more" -> Reference
+                       <$> ((o .: "data") >>= (.: "count"))
+                       <*> ((o .: "data") >>= (.: "children"))
+      _             -> mempty
 
 instance FromJSON (POSTWrapped [CommentReference]) where
-  parseJSON (Object o) = do
+  parseJSON = withObject "PostWrapped [CommentReference]" $ \o -> do
     cs <- (o .: "json") >>= (.: "data") >>= (.: "things")
     POSTWrapped <$> parseJSON cs
-  parseJSON _ = mempty
 
--- | @isReference c@ returns is true if @c@ is an actual comment, false otherwise
+-- | @isReference c@ is 'True' if @c@ is an actual comment, 'False' otherwise.
 isActual :: CommentReference -> Bool
 isActual (Actual _) = True
-isActual _ = False
+isActual _          = False
 
--- | @isReference c@ returns is true if @c@ is a reference, false otherwise
+-- | @isReference c@ is 'True' if @c@ is a reference, 'False' otherwise.
 isReference :: CommentReference -> Bool
 isReference (Reference _ _) = True
-isReference _ = False
+isReference _               = False
 
-data Comment = Comment { commentID :: CommentID
-                       , score :: Maybe Integer
-                       , subredditID :: SubredditID
-                       , subreddit :: SubredditName
-                       , gilded :: Integer
-                       , saved :: Bool
-                       , author :: Username
-                       , authorFlairCSSClass :: Maybe Text
-                       , authorFlairText :: Maybe Text
-                       , body :: Text
-                       , bodyHTML :: Text
-                       , replies :: Listing CommentID CommentReference
-                       , created :: UTCTime
-                       , edited :: Maybe UTCTime
-                       , parentLink :: PostID
-                       , inReplyTo :: Maybe CommentID }
+data Comment
+  = Comment
+    { commentID           :: CommentID
+    , score               :: Maybe Integer
+    , subredditID         :: SubredditID
+    , subreddit           :: SubredditName
+    , gilded              :: Integer
+    , saved               :: Bool
+    , author              :: Username
+    , authorFlairCSSClass :: Maybe Text
+    , authorFlairText     :: Maybe Text
+    , body                :: Text
+    , bodyHTML            :: Text
+    , replies             :: Listing CommentID CommentReference
+    , created             :: UTCTime
+    , edited              :: Maybe UTCTime
+    , parentLink          :: PostID
+    , inReplyTo           :: Maybe CommentID
+    }
   deriving (Show, Read, Eq)
 
 instance Thing Comment where
   fullName c = fullName (commentID c)
 
 instance FromJSON Comment where
-  parseJSON (Object o) = do
+  parseJSON = withObject "Comment" $ \o -> do
     o `ensureKind` commentPrefix
     d <- o .: "data"
     Comment <$> d .: "id"
@@ -113,22 +118,26 @@ instance FromJSON Comment where
             <*> d .: "body_html"
             <*> d .: "replies"
             <*> (posixSecondsToUTCTime . fromInteger <$> d .: "created_utc")
-            <*> ((fmap (posixSecondsToUTCTime . fromInteger) <$> d .: "edited") <|> pure Nothing)
-            <*> (parseJSON =<< d .: "link_id")
-            <*> (d .:? "parent_id" >>= \v -> traverse parseJSON v <|> pure Nothing)
-  parseJSON _ = mempty
+            <*> ((fmap (posixSecondsToUTCTime . fromInteger) <$> d .: "edited")
+                 <|> pure Nothing)
+            <*> (d .: "link_id" >>= parseJSON)
+            <*> (d .:? "parent_id"
+                 >>= \v -> traverse parseJSON v <|> pure Nothing)
 
 instance FromJSON (POSTWrapped Comment) where
-  parseJSON (Object o) = do
+  parseJSON = withObject "POSTWrapped Comment" $ \o -> do
     ts <- (o .: "json") >>= (.: "data") >>= (.: "things")
     case Vector.toList ts of
       [c] -> POSTWrapped <$> parseJSON c
-      _ -> mempty
-  parseJSON _ = mempty
+      _   -> mempty
 
 treeSubComments :: CommentReference -> [CommentReference]
-treeSubComments a@(Actual c) = a : concatMap treeSubComments ((\(Listing _ _ cs) -> cs) $ replies c)
-treeSubComments (Reference _ rs) = map (\r -> Reference 1 [r]) rs
+treeSubComments = go
+  where
+    go a@(Actual c)     = a : concatMap treeSubComments (getCS (replies c))
+    go (Reference _ rs) = map (\r -> Reference 1 [r]) rs
+
+    getCS (Listing _ _ cs) = cs
 
 isDeleted :: Comment -> Bool
 isDeleted = (== Username "[deleted]") . author
@@ -137,14 +146,15 @@ data PostComments = PostComments Post [CommentReference]
   deriving (Show, Read, Eq)
 
 instance FromJSON PostComments where
-  parseJSON (Array a) =
+  parseJSON = withArray "PostComments" $ \a -> do
     case Vector.toList a of
-      postListing:commentListing:_ -> do
-        Listing _ _ [post] <- parseJSON postListing :: Parser (Listing PostID Post)
-        Listing _ _ comments <- parseJSON commentListing :: Parser (Listing CommentID CommentReference)
+      (postListing : commentListing : _) -> do
+        Listing _ _ [post]   <- parseJSON postListing
+                                :: Parser (Listing PostID Post)
+        Listing _ _ comments <- parseJSON commentListing
+                                :: Parser (Listing CommentID CommentReference)
         return $ PostComments post comments
       _ -> mempty
-  parseJSON _ = mempty
 
 type CommentListing = Listing CommentID Comment
 

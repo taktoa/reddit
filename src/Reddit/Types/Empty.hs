@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Empty ( nothing ) where
 
 import Control.Monad (liftM)

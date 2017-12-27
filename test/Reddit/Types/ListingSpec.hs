@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Types.ListingSpec where
 
 import Reddit.Types.Comment

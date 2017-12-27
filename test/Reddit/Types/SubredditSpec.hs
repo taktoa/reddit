@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Types.SubredditSpec where
 
 import Reddit.Types.Subreddit

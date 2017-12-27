@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Wiki where
 
 import Reddit.Types.Subreddit

@@ -1,4 +1,9 @@
-module Reddit.Types.Post where
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE RecordWildCards #-}
+module Reddit.Types.Post
+  ( module Reddit.Types.Post -- FIXME: specific export list
+  ) where
 
 import Reddit.Parser
 import Reddit.Types.Listing
@@ -17,73 +22,83 @@ import Data.Text (Text)
 import Network.API.Builder.Query
 import Prelude
 
-newtype PostID = PostID Text
-  deriving (Show, Read, Eq, Ord)
+newtype PostID
+  = PostID Text
+  deriving (Eq, Ord, Show, Read)
 
 instance FromJSON PostID where
-  parseJSON (String s) =
+  parseJSON = withText "PostID" $ \s -> do
     PostID <$> stripPrefix postPrefix s
-  parseJSON _ = mempty
 
 instance FromJSON (POSTWrapped PostID) where
-  parseJSON (Object o) =
+  parseJSON = withObject "POSTWrapped PostID" $ \o -> do
     POSTWrapped <$> ((o .: "json") >>= (.: "data") >>= (.: "id"))
-  parseJSON _ = mempty
 
-data Post = Post { postID :: PostID
-                 , title :: Text
-                 , permalink :: Text
-                 , author :: Username
-                 , score :: Integer
-                 , created :: UTCTime
-                 , content :: PostContent
-                 , commentCount :: Integer
-                 , liked :: Maybe Bool
-                 , flairText :: Maybe Text
-                 , flairClass :: Maybe Text
-                 , domain :: Text
-                 , gilded :: Integer
-                 , nsfw :: Bool
-                 , subreddit :: SubredditName
-                 , subredditID :: SubredditID }
-  deriving (Show, Read, Eq)
+data Post
+  = Post
+    { postID           :: PostID
+    , postTitle        :: Text
+    , postPermalink    :: Text
+    , postAuthor       :: Username
+    , postScore        :: Integer
+    , postCreated      :: UTCTime
+    , postContent      :: PostContent
+    , postCommentCount :: Integer
+    , postLiked        :: Maybe Bool
+    , postFlairText    :: Maybe Text
+    , postFlairClass   :: Maybe Text
+    , postDomain       :: Text
+    , postGilded       :: Integer
+    , postNSFW         :: Bool
+    , postSubreddit    :: SubredditName
+    , postSubredditID  :: SubredditID
+    }
+  deriving (Eq, Show, Read)
 
 instance FromJSON Post where
-  parseJSON (Object o) = do
+  parseJSON = withObject "Post" $ \o -> do
     o `ensureKind` postPrefix
     d <- o .: "data"
-    Post <$> d .: "id"
-         <*> d .: "title"
-         <*> d .: "permalink"
-         <*> d .: "author"
-         <*> d .: "score"
-         <*> (posixSecondsToUTCTime . fromInteger <$> d .: "created_utc")
-         <*> (buildContent <$> d .: "is_self" <*> d .:? "selftext" <*> d .:? "selftext_html" <*> d .: "url")
-         <*> d .: "num_comments"
-         <*> d .:? "likes"
-         <*> d .:? "link_flair_text"
-         <*> d .:? "link_flair_css_class"
-         <*> d .: "domain"
-         <*> d .: "gilded"
-         <*> d .: "over_18"
-         <*> d .: "subreddit"
-         <*> d .: "subreddit_id"
-  parseJSON _ = mempty
 
-data PostContent = SelfPost Text Text
-                 | Link Text
-                 | TitleOnly
-  deriving (Show, Read, Eq)
+    postID           <- d .: "id"
+    postTitle        <- d .: "title"
+    postPermalink    <- d .: "permalink"
+    postAuthor       <- d .: "author"
+    postScore        <- d .: "score"
+    postCreated      <- posixSecondsToUTCTime . fromInteger
+                        <$> d .: "created_utc"
+    postContent      <- buildContent
+                        <$> d .: "is_self"
+                        <*> d .:? "selftext"
+                        <*> d .:? "selftext_html"
+                        <*> d .: "url"
+    postCommentCount <- d .: "num_comments"
+    postLiked        <- d .:? "likes"
+    postFlairText    <- d .:? "link_flair_text"
+    postFlairClass   <- d .:? "link_flair_css_class"
+    postDomain       <- d .: "domain"
+    postGilded       <- d .: "gilded"
+    postNSFW         <- d .: "over_18"
+    postSubreddit    <- d .: "subreddit"
+    postSubredditID  <- d .: "subreddit_id"
+
+    pure (Post {..})
+
+data PostContent
+  = SelfPost Text Text
+  | Link Text
+  | TitleOnly
+  deriving (Eq, Show, Read)
 
 buildContent :: Bool -> Maybe Text -> Maybe Text -> Maybe Text -> PostContent
-buildContent False _ _ (Just url) = Link url
-buildContent True (Just s) (Just sHTML) _ = SelfPost (unescape s) sHTML
-buildContent True (Just "") Nothing _ = TitleOnly
-buildContent _ _ _ _ = undefined
+buildContent False _         _           (Just url) = Link url
+buildContent True  (Just s)  (Just html) _          = SelfPost (unescape s) html
+buildContent True  (Just "") Nothing     _          = TitleOnly
+buildContent _     _         _           _          = undefined -- FIXME
 
 instance Thing Post where
-  fullName p = mconcat [postPrefix , "_", pID]
-    where (PostID pID) = postID p
+  fullName p = let (PostID pID) = postID p
+               in mconcat [postPrefix , "_", pID]
 
 instance Thing PostID where
   fullName (PostID pID) = mconcat [postPrefix , "_", pID]

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Subreddit where
 
 import Reddit.Types.Subreddit hiding (title)

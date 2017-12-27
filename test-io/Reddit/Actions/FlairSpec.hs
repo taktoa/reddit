@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE Rank2Types #-}
+
 module Reddit.Actions.FlairSpec where
 
 import Reddit.Actions.Flair

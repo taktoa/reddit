@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Reddit.Actions.PostSpec where
 
 import Reddit
@@ -23,13 +25,18 @@ spec = describe "Reddit.Actions.Post" $ do
     res <- runAnon $ getPostInfo (PostID "z1c9z")
     res `shouldSatisfy` isRight
     case res of
-      Left _ -> expectationFailure "something failed"
+      Left  _    -> expectationFailure "something failed"
       Right post -> do
-        author post `shouldBe` Username "PresidentObama"
-        title post `shouldBe` "I am Barack Obama, President of the United States -- AMA"
-        subredditID post `shouldBe` SubredditID "2qzb6"
-        subreddit post `shouldBe` R "IAMA"
-        nsfw post `shouldBe` False
+        postAuthor post
+          `shouldBe` Username "PresidentObama"
+        postTitle post
+          `shouldBe` "I am Barack Obama, President of the United States -- AMA"
+        postSubredditID post
+          `shouldBe` SubredditID "2qzb6"
+        postSubreddit post
+          `shouldBe` R "IAMA"
+        postNSFW post
+          `shouldBe` False
 
   it "should be able to get info for multiple posts" $ do
     res <- runAnon $ getPostsInfo [PostID "z1c9z", PostID "t0ynr"]

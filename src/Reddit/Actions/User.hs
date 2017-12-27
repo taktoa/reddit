@@ -32,58 +32,83 @@ import Network.API.Builder.Error
 import qualified Data.Text as Text
 
 -- | Get the information Reddit exposes on user behind the specified username
-getUserInfo :: Monad m => Username -> RedditT m User
+getUserInfo :: (Monad m)
+            => Username
+            -> RedditT m User
 getUserInfo = runRoute . Route.aboutUser
 
 -- | Get the listing of comments authored by the specified user.
-getUserComments :: Monad m => Username -> RedditT m CommentListing
+getUserComments :: (Monad m)
+                => Username
+                -> RedditT m CommentListing
 getUserComments = getUserComments' def
 
 -- | Get the listing of comments authored by the specified user, with Options.
-getUserComments' :: Monad m => Options CommentID -> Username -> RedditT m CommentListing
+getUserComments' :: (Monad m)
+                 => Options CommentID
+                 -> Username
+                 -> RedditT m CommentListing
 getUserComments' opts user = runRoute $ Route.userComments opts user
 
 -- | Get the listing of posts authored by the specified user.
-getUserPosts :: Monad m => Username -> RedditT m PostListing
+getUserPosts :: (Monad m)
+             => Username
+             -> RedditT m PostListing
 getUserPosts = getUserPosts' def
 
 -- | Get the listing of posts authored by the specified user, with Options.
-getUserPosts' :: Monad m => Options PostID -> Username -> RedditT m PostListing
+getUserPosts' :: (Monad m)
+              => Options PostID
+              -> Username
+              -> RedditT m PostListing
 getUserPosts' opts user = runRoute $ Route.userPosts opts user
 
 -- | Check whether the specified username is still available or has been taken.
-isUsernameAvailable :: Monad m => Username -> RedditT m Bool
+isUsernameAvailable :: (Monad m)
+                    => Username
+                    -> RedditT m Bool
 isUsernameAvailable = runRoute . Route.usernameAvailable
 
 -- | Get information of the currently-logged-in user.
-aboutMe :: Monad m => RedditT m User
+aboutMe :: (Monad m)
+        => RedditT m User
 aboutMe = runRoute Route.aboutMe
 
 -- | Get users blocked by the currently-logged-in user.
-getBlockedUsers :: Monad m => RedditT m [Relationship]
+getBlockedUsers :: (Monad m)
+                => RedditT m [Relationship]
 getBlockedUsers = do
   UserList rs <- runRoute Route.blocked
-  return rs
+  pure rs
 
 -- | Get friends of the currently-logged-in user.
-getFriends :: Monad m => RedditT m [Relationship]
+getFriends :: (Monad m)
+           => RedditT m [Relationship]
 getFriends = do
   UserList rs <- runRoute Route.friends
-  return rs
+  pure rs
 
 -- | Check if a user has chosen (or been assign) user flair on a particular
 --   subreddit. Requires moderator privileges on the specified subreddit.
-lookupUserFlair :: Monad m => SubredditName -> Username -> RedditT m Flair
+lookupUserFlair :: (Monad m)
+                => SubredditName
+                -> Username
+                -> RedditT m Flair
 lookupUserFlair r u = do
-  res <- liftM flistToListing $ runRoute (Route.lookupUserFlair r u)
+  res <- flistToListing <$> runRoute (Route.lookupUserFlair r u)
   case res of
-    Listing _ _ [f] -> return f
-    _ -> failWith $ APIError InvalidResponseError
+    Listing _ _ [f] -> pure f
+    _               -> failWith (APIError InvalidResponseError)
 
 -- | Set a user's flair on the specified subreddit. Requires moderator
 --   privileges on the specified subreddit.
-setUserFlair :: Monad m => SubredditName -> Username -> Text -> Text -> RedditT m ()
-setUserFlair r u txt cls =
-  if Text.length txt > 64
-    then fail "Flair text too long!"
-    else nothing $ runRoute $ Route.setUserFlair r u txt cls
+setUserFlair :: (Monad m)
+             => SubredditName
+             -> Username
+             -> Text
+             -> Text
+             -> RedditT m ()
+setUserFlair r u txt cls
+  = if Text.length txt > 64
+      then fail "Flair text too long!"
+      else nothing $ runRoute $ Route.setUserFlair r u txt cls

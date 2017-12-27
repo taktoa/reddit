@@ -1,5 +1,7 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Error
-  (RedditError(..)) where
+  ( RedditError (..)
+  ) where
 
 import Control.Applicative
 import Data.Aeson
@@ -10,44 +12,56 @@ import Network.API.Builder.Receive
 import Prelude
 import qualified Data.Vector as V
 
-data RedditError = RedditError Object
-                 | FailError Text
-                 | InvalidResponseError
-                 | CaptchaError Text
-                 | CredentialsError
-                 | RateLimitError Integer Text
-                 | NoSubredditSpecified
-                 | NoURLSpecified
-                 | NoName
-                 | NoText Text
-                 | AlreadySubmitted
-                 | CommentDeleted
-                 | LinkDeleted
-                 | BadSubredditName
-                 | TooManyRequests
-                 deriving (Show, Eq)
+data RedditError
+  = RedditError Object
+  | FailError Text
+  | InvalidResponseError
+  | CaptchaError Text
+  | CredentialsError
+  | RateLimitError Integer Text
+  | NoSubredditSpecified
+  | NoURLSpecified
+  | NoName
+  | NoText Text
+  | AlreadySubmitted
+  | CommentDeleted
+  | LinkDeleted
+  | BadSubredditName
+  | TooManyRequests
+  deriving (Show, Eq)
 
 instance FromJSON RedditError where
-  parseJSON (Object o) = do
+  parseJSON = withObject "RedditError" $ \o -> do
     Array errors <- o .: "json" >>= (.: "errors")
     case errors !? 0 of
       Just (Array e) -> case V.toList e of
-        String "WRONG_PASSWORD" : _ -> return CredentialsError
-        String "USER_REQUIRED" : _ -> return CredentialsError
-        String "RATELIMIT" : String d : _ ->
-            RateLimitError <$> ((o .: "json") >>= (.: "ratelimit")) <*> pure d
-        String "SUBREDDIT_REQUIRED" : _ -> return NoSubredditSpecified
-        String "ALREADY_SUB" : _ -> return AlreadySubmitted
-        String "NO_URL" : _ -> return NoURLSpecified
-        String "NO_NAME" : _ -> return NoName
-        String "NO_TEXT" : _ : String f : _ -> return $ NoText f
-        String "COMMENT_DELETED" : _ -> return CommentDeleted
-        String "DELETED_LINK" : _ -> return LinkDeleted
-        String "BAD_SR_NAME" : _ -> return BadSubredditName
-        String "BAD_CAPTCHA" : _ -> CaptchaError <$> (o .: "json" >>= (.: "captcha"))
-        _ -> return $ RedditError o
+        (String "WRONG_PASSWORD" : _) -> do
+          pure CredentialsError
+        (String "USER_REQUIRED" : _) -> do
+          pure CredentialsError
+        (String "RATELIMIT" : String d : _) -> do
+          r <- (o .: "json") >>= (.: "ratelimit")
+          pure (RateLimitError r d)
+        (String "SUBREDDIT_REQUIRED" : _) -> do
+          pure NoSubredditSpecified
+        (String "ALREADY_SUB" : _) -> do
+          pure AlreadySubmitted
+        (String "NO_URL" : _) -> do
+          pure NoURLSpecified
+        (String "NO_NAME" : _) -> do
+          pure NoName
+        (String "NO_TEXT" : _ : String f : _) -> do
+          pure (NoText f)
+        (String "COMMENT_DELETED" : _) -> do
+          pure CommentDeleted
+        (String "DELETED_LINK" : _) -> do
+          pure LinkDeleted
+        (String "BAD_SR_NAME" : _) -> do
+          pure BadSubredditName
+        (String "BAD_CAPTCHA" : _) -> do
+          CaptchaError <$> (o .: "json" >>= (.: "captcha"))
+        _ -> pure $ RedditError o
       _ -> mempty
-  parseJSON _ = mempty
 
 instance ErrorReceivable RedditError where
   receiveError = useErrorFromJSON

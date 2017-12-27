@@ -1,3 +1,5 @@
+{-# LANGUAGE Rank2Types #-}
+
 module ConfigLoad where
 
 import Network.HTTP.Client
@@ -8,8 +10,11 @@ import System.Exit
 import qualified Data.Text as Text
 import qualified Data.Text.IO as Text
 
-newtype RunReddit = RunReddit
-  { run :: forall a. Reddit a -> IO (Either (APIError RedditError) a) }
+newtype RunReddit
+  = RunReddit
+    { run :: forall a. Reddit a -> IO (Either (APIError RedditError) a)
+    }
+  deriving ()
 
 loadConfig :: IO (RunReddit, Username, SubredditName)
 loadConfig = do

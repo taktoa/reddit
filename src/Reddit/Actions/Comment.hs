@@ -1,5 +1,5 @@
--- | Contains comment-related actions, like editing comments
---   and performing moderator actions on posts.
+-- | Contains comment-related actions, like editing comments and performing
+--   moderator actions on posts.
 module Reddit.Actions.Comment
   ( getNewComments
   , getNewComments'
@@ -8,7 +8,8 @@ module Reddit.Actions.Comment
   , getCommentsInfo
   , editComment
   , deleteComment
-  , removeComment ) where
+  , removeComment
+  ) where
 
 import Reddit.Types.Comment
 import Reddit.Types.Empty
@@ -25,23 +26,31 @@ import Data.Text (Text)
 import Network.API.Builder (APIError(..))
 
 -- | Get a 'CommentListing' for the most recent comments on the site overall.
---   This maps to <http://reddit.com/r/$SUBREDDIT/comments>, or <http://reddit.com/comments>
---   if the subreddit is not specified.
+--   This maps to <http://reddit.com/r/$SUBREDDIT/comments>,
+--   or <http://reddit.com/comments> if the subreddit is not specified.
 --   Note that none of the comments returned will have any child comments.
-getNewComments :: Monad m => Maybe SubredditName -> RedditT m CommentListing
+getNewComments :: (Monad m)
+               => Maybe SubredditName
+               -> RedditT m CommentListing
 getNewComments = getNewComments' def
 
--- | Get a 'CommentListing' for the most recent comments with the specified 'Options' and
---   'SubredditName'. Note that none of the comments returned will have any child comments.
---   If the 'Options' is 'def', then this function is identical to 'getNewComments'.
-getNewComments' :: Monad m => Options CommentID -> Maybe SubredditName -> RedditT m CommentListing
+-- | Get a 'CommentListing' for the most recent comments with the specified
+--   'Options' and 'SubredditName'. Note that none of the comments returned
+--   will have any child comments. If the 'Options' is 'def', then this
+--   function is identical to 'getNewComments'.
+getNewComments' :: (Monad m)
+                => Options CommentID
+                -> Maybe SubredditName
+                -> RedditT m CommentListing
 getNewComments' opts r = runRoute $ Route.newComments opts r
 
 -- | Expand children comments that weren't fetched on initial load.
 --   Equivalent to the web UI's "load more comments" button.
-getMoreChildren :: Monad m
-                => PostID -- ^ @PostID@ for the top-level
-                -> [CommentID] -- ^ List of @CommentID@s to expand
+getMoreChildren :: (Monad m)
+                => PostID
+                -- ^ @PostID@ for the top-level
+                -> [CommentID]
+                -- ^ List of @CommentID@s to expand
                 -> RedditT m [CommentReference]
 getMoreChildren _ [] = return []
 getMoreChildren p cs = do
@@ -50,7 +59,8 @@ getMoreChildren p cs = do
   more <- getMoreChildren p next
   return $ rs ++ more
 
--- | Given a 'CommentID', 'getCommentInfo' will return the full details for that comment.
+-- | Given a 'CommentID', 'getCommentInfo' will return the full details for
+--   that comment.
 getCommentInfo :: Monad m => CommentID -> RedditT m Comment
 getCommentInfo c = do
   res <- getCommentsInfo [c]
@@ -58,10 +68,13 @@ getCommentInfo c = do
     Listing _ _ [comment] -> return comment
     _ -> failWith $ APIError InvalidResponseError
 
--- | Given a list of 'CommentID's, 'getCommentsInfo' will return another list containing
---   the full details for all the comments. Note that Reddit's
---   API imposes a limitation of 100 comments per request, so this function will fail immediately if given a list of more than 100 IDs.
-getCommentsInfo :: Monad m => [CommentID] -> RedditT m CommentListing
+-- | Given a list of 'CommentID's, 'getCommentsInfo' will return another list
+--   containing the full details for all the comments. Note that Reddit's
+--   API imposes a limitation of 100 comments per request, so this function will
+--   fail immediately if given a list of more than 100 IDs.
+getCommentsInfo :: (Monad m)
+                => [CommentID]
+                -> RedditT m CommentListing
 getCommentsInfo cs =
   if null $ drop 100 cs
     then do
@@ -77,9 +90,11 @@ getCommentsInfo cs =
     sameLength _ _ = False
 
 -- | Edit a comment.
-editComment :: Monad m
-            => CommentID -- ^ Comment to edit
-            -> Text -- ^ New comment text
+editComment :: (Monad m)
+            => CommentID
+            -- ^ Comment to edit
+            -> Text
+            -- ^ New comment text
             -> RedditT m Comment
 editComment thing text = do
   POSTWrapped res <- runRoute $ Route.edit thing text
@@ -87,10 +102,14 @@ editComment thing text = do
 
 -- | Deletes one of your own comments. Note that this is different from
 --   removing a comment as a moderator action.
-deleteComment :: Monad m => CommentID -> RedditT m ()
+deleteComment :: (Monad m)
+              => CommentID
+              -> RedditT m ()
 deleteComment = nothing . runRoute . Route.delete
 
 -- | Removes a comment (as a moderator action). Note that this is different
 --   from deleting a comment.
-removeComment :: Monad m => CommentID -> RedditT m ()
+removeComment :: (Monad m)
+              => CommentID
+              -> RedditT m ()
 removeComment = nothing . runRoute . Route.removePost False

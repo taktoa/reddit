@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Reddit.Types.Reddit
   ( Reddit
   , RedditT(..)
@@ -16,7 +19,8 @@ module Reddit.Types.Reddit
   , headersToRateLimitInfo
   , mainBaseURL
   , loginBaseURL
-  , addAPIType ) where
+  , addAPIType
+  ) where
 
 import Reddit.Types.Error
 
@@ -39,12 +43,26 @@ import qualified Data.ByteString.Char8 as BS
 type Reddit a = RedditT IO a
 
 data RedditF m a where
-  FailWith :: APIError RedditError -> RedditF m a
-  Nest :: RedditT m b -> (Either (APIError RedditError) b -> a) -> RedditF m a
-  NestResuming :: RedditT m b -> (Either (APIError RedditError, Maybe (RedditT m b)) b -> a) -> RedditF m a
-  ReceiveRoute :: Receivable b => Route -> (b -> a) -> RedditF m a
-  RunRoute :: FromJSON b => Route -> (b -> a) -> RedditF m a
-  WithBaseURL :: Text -> RedditT m b -> (b -> a) -> RedditF m a
+  FailWith     :: APIError RedditError
+               -> RedditF m a
+  Nest         :: RedditT m a
+               -> (Either (APIError RedditError) a -> b)
+               -> RedditF m b
+  NestResuming :: RedditT m a
+               -> (Either (APIError RedditError, Maybe (RedditT m a)) a -> b)
+               -> RedditF m b
+  ReceiveRoute :: (Receivable b)
+               => Route
+               -> (b -> a)
+               -> RedditF m a
+  RunRoute     :: (FromJSON b)
+               => Route
+               -> (b -> a)
+               -> RedditF m a
+  WithBaseURL  :: Text
+               -> RedditT m b
+               -> (b -> a)
+               -> RedditF m a
 
 instance Functor (RedditF m) where
   fmap _ (FailWith x) = FailWith x

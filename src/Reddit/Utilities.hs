@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 -- | Miscellaneous utilities for various parts of the library
 module Reddit.Utilities
   ( unescape ) where

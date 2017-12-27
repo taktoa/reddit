@@ -14,12 +14,18 @@ import Network.API.Builder.Error
 
 -- | Get a list of existing bans on a subreddit.
 --   User must be a moderator of the subreddit.
-bans :: Monad m => Options BanID -> SubredditName -> RedditT m (Listing BanID Ban)
+bans :: (Monad m)
+     => Options BanID
+     -> SubredditName
+     -> RedditT m (Listing BanID Ban)
 bans opts r = runRoute $ bansListing opts r
 
--- | Check to see if a user is banned from a subreddit. Logged-in user must
---   be a moderator of the subreddit
-lookupBan :: Monad m => Username -> SubredditName -> RedditT m (Maybe Ban)
+-- | Check to see if a user is banned from a subreddit.
+--   Logged-in user must be a moderator of the subreddit.
+lookupBan :: (Monad m)
+          => Username
+          -> SubredditName
+          -> RedditT m (Maybe Ban)
 lookupBan u r = do
   res <- runRoute $ banLookup u r
   case res :: Listing BanID Ban of
@@ -29,8 +35,11 @@ lookupBan u r = do
         [] -> return Nothing
         _-> failWith (APIError InvalidResponseError)
 
-getModmail :: Monad m => RedditT m (Listing MessageID Message)
+getModmail :: (Monad m)
+           => RedditT m (Listing MessageID Message)
 getModmail = runRoute $ modmail $ Options Nothing Nothing
 
-getModmail' :: Monad m => Options MessageID -> RedditT m (Listing MessageID Message)
+getModmail' :: (Monad m)
+            => Options MessageID
+            -> RedditT m (Listing MessageID Message)
 getModmail' = runRoute . modmail

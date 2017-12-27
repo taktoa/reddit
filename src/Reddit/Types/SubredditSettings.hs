@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.SubredditSettings
   ( SubredditSettings(..)
   , ContentOptions(..)
