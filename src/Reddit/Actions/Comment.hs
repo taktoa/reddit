@@ -11,19 +11,19 @@ module Reddit.Actions.Comment
   , removeComment
   ) where
 
-import Reddit.Types.Comment
-import Reddit.Types.Empty
-import Reddit.Types.Error
-import Reddit.Types.Listing
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import qualified Reddit.Routes as Route
+import qualified Reddit.Routes          as Route
+import           Reddit.Types.Comment
+import           Reddit.Types.Empty
+import           Reddit.Types.Error
+import           Reddit.Types.Listing
+import           Reddit.Types.Options
+import           Reddit.Types.Post
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
 
-import Data.Default.Class
-import Data.Text (Text)
-import Network.API.Builder (APIError(..))
+import           Data.Default.Class
+import           Data.Text              (Text)
+import           Network.API.Builder    (APIError (..))
 
 -- | Get a 'CommentListing' for the most recent comments on the site overall.
 --   This maps to <http://reddit.com/r/$SUBREDDIT/comments>,
@@ -66,7 +66,7 @@ getCommentInfo c = do
   res <- getCommentsInfo [c]
   case res of
     Listing _ _ [comment] -> return comment
-    _ -> failWith $ APIError InvalidResponseError
+    _                     -> failWith $ APIError InvalidResponseError
 
 -- | Given a list of 'CommentID's, 'getCommentsInfo' will return another list
 --   containing the full details for all the comments. Note that Reddit's

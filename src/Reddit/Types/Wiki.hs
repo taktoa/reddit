@@ -1,26 +1,26 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Wiki where
 
-import Reddit.Parser
-import Reddit.Types.User
-import Reddit.Utilities
+import           Reddit.Parser
+import           Reddit.Types.User
+import           Reddit.Utilities
 
-import Control.Applicative
-import Data.Aeson
-import Data.Monoid
-import Data.Text (Text)
-import Data.Time.Clock
-import Data.Time.Clock.POSIX
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text             (Text)
+import           Data.Time.Clock
+import           Data.Time.Clock.POSIX
+import           Prelude
 
 newtype RevisionID = RevisionID Text
   deriving (Show, Read, Eq)
 
-data WikiPage = WikiPage { contentHTML :: Maybe Text
+data WikiPage = WikiPage { contentHTML     :: Maybe Text
                          , contentMarkdown :: Text
-                         , revisionDate :: UTCTime
-                         , revisedBy :: Username
-                         , canRevise :: Bool }
+                         , revisionDate    :: UTCTime
+                         , revisedBy       :: Username
+                         , canRevise       :: Bool }
   deriving (Show, Read, Eq)
 
 instance FromJSON WikiPage where

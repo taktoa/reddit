@@ -4,12 +4,12 @@ module Reddit.Parser
   ( ensureKind
   , stripPrefix ) where
 
-import Control.Monad (guard)
-import Data.Aeson.Types (Parser, Object, (.:))
-import Data.Monoid
-import Data.Text (Text)
-import Prelude
-import qualified Data.Text as Text
+import           Control.Monad    (guard)
+import           Data.Aeson.Types (Object, Parser, (.:))
+import           Data.Monoid
+import           Data.Text        (Text)
+import qualified Data.Text        as Text
+import           Prelude
 
 -- | Fail to parse unless the @Object@'s kind is what it should be.
 ensureKind :: Object -> Text -> Parser ()
@@ -24,6 +24,6 @@ stripPrefix prefix string =
     (t, i) | t == prefix ->
       case Text.stripPrefix "_" i of
         Just rest -> return rest
-        Nothing -> mempty
+        Nothing   -> mempty
     (i, "") -> return i
     _ -> mempty

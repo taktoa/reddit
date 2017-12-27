@@ -6,16 +6,16 @@ module Reddit.Types.SubredditSettings
   , SubredditType(..)
   , WikiEditMode(..) ) where
 
-import Reddit.Parser
-import Reddit.Utilities
+import           Reddit.Parser
+import           Reddit.Utilities
 
-import Control.Applicative
-import Data.Aeson
-import Data.Default.Class
-import Data.Monoid hiding (Any(..))
-import Data.Text (Text)
-import Network.API.Builder.Query
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Default.Class
+import           Data.Monoid               hiding (Any (..))
+import           Data.Text                 (Text)
+import           Network.API.Builder.Query
+import           Prelude
 
 data SubredditSettings = SubredditSettings { sidebarText :: Text
                                            , descriptionText :: Text
@@ -105,12 +105,12 @@ subredditTypeText Archived = "archived"
 instance FromJSON SubredditType where
   parseJSON (String s) =
     case s of
-      "public" -> return Public
-      "private" -> return Private
-      "restricted" -> return Restricted
+      "public"          -> return Public
+      "private"         -> return Private
+      "restricted"      -> return Restricted
       "gold_restricted" -> return GoldRestricted
-      "archived" -> return Archived
-      _ -> mempty
+      "archived"        -> return Archived
+      _                 -> mempty
   parseJSON _ = mempty
 
 instance ToJSON SubredditType where
@@ -135,10 +135,10 @@ contentOptionsText Self = "self"
 instance FromJSON ContentOptions where
   parseJSON (String s) =
     case s of
-      "any" -> return Any
+      "any"  -> return Any
       "link" -> return Link
       "self" -> return Self
-      _ -> mempty
+      _      -> mempty
   parseJSON _ = mempty
 
 instance ToJSON ContentOptions where
@@ -158,10 +158,10 @@ data SpamFilterStrength = FilterLow
 instance FromJSON SpamFilterStrength where
   parseJSON (String s) =
     case s of
-      "low" -> return FilterLow
+      "low"  -> return FilterLow
       "high" -> return FilterHigh
-      "all" -> return FilterAll
-      _ -> mempty
+      "all"  -> return FilterAll
+      _      -> mempty
   parseJSON _ = mempty
 
 spamFilterStrengthText :: SpamFilterStrength -> Text
@@ -184,9 +184,9 @@ instance FromJSON WikiEditMode where
   parseJSON (String s) =
     case s of
       "disabled" -> return ModOnly
-      "modonly" -> return ApprovedOnly
-      "anyone" -> return Anyone
-      _ -> mempty
+      "modonly"  -> return ApprovedOnly
+      "anyone"   -> return Anyone
+      _          -> mempty
   parseJSON _ = mempty
 
 wikiEditModeText :: WikiEditMode -> Text

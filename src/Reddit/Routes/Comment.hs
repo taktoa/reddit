@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Comment where
 
-import Reddit.Types.Comment
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Subreddit
+import           Reddit.Types.Comment
+import           Reddit.Types.Options
+import           Reddit.Types.Post
+import           Reddit.Types.Subreddit
 
-import Network.API.Builder.Routes
+import           Network.API.Builder.Routes
 
 aboutComment :: CommentID -> Route
 aboutComment pID = Route [ "api", "info" ]
@@ -29,7 +29,7 @@ newComments opts r =
   where
     url = case r of
       Just (R sub) -> [ "r", sub, "comments" ]
-      Nothing -> [ "comments" ]
+      Nothing      -> [ "comments" ]
 
 commentsInfo :: [CommentID] -> Route
 commentsInfo cs =

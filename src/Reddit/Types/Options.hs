@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Options where
 
-import Data.Default.Class
+import           Data.Default.Class
 
 data PaginationOption a = Before a
                         | After a
   deriving (Show, Read, Eq)
 
 data Options a = Options { pagination :: Maybe (PaginationOption a)
-                         , limit :: Maybe Int }
+                         , limit      :: Maybe Int }
   deriving (Show, Read, Eq)
 
 before :: Options a -> Maybe a

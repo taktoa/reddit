@@ -1,5 +1,5 @@
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE LambdaCase #-}
 
 -- | This module should be most of what you need to operate the library.
 --   It exports functionality for running built 'RedditT' actions, as well
@@ -23,28 +23,28 @@ module Reddit
   , module Reddit.Types.Error
   , module Reddit.Types.Reddit ) where
 
-import Reddit.Actions
-import Reddit.Login
-import Reddit.Types.Error
-import Reddit.Types
-import Reddit.Types.Reddit hiding (info, should)
+import           Reddit.Actions
+import           Reddit.Login
+import           Reddit.Types
+import           Reddit.Types.Error
+import           Reddit.Types.Reddit      hiding (info, should)
 
-import Control.Concurrent
-import Control.Monad
-import Control.Monad.IO.Class
-import Control.Monad.Trans.Free
-import Data.ByteString.Char8 (ByteString)
-import Data.Default.Class
-import Data.Maybe (fromMaybe, isNothing)
-import Data.Monoid
-import Data.Text (Text)
-import Data.Text.Encoding (encodeUtf8)
-import Data.Version
-import Network.API.Builder as API
-import Network.HTTP.Client
-import Network.HTTP.Client.TLS
-import Network.HTTP.Types
-import qualified Data.ByteString.Char8 as BS
+import           Control.Concurrent
+import           Control.Monad
+import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Free
+import           Data.ByteString.Char8    (ByteString)
+import qualified Data.ByteString.Char8    as BS
+import           Data.Default.Class
+import           Data.Maybe               (fromMaybe, isNothing)
+import           Data.Monoid
+import           Data.Text                (Text)
+import           Data.Text.Encoding       (encodeUtf8)
+import           Data.Version
+import           Network.API.Builder      as API
+import           Network.HTTP.Client
+import           Network.HTTP.Client.TLS
+import           Network.HTTP.Types
 
 import qualified Paths_reddit
 
@@ -234,10 +234,10 @@ addHeaders xs req = req { requestHeaders = requestHeaders req ++ xs }
 data RedditState
   = RedditState
     { currentBaseURL :: Text
-    , rateLimit :: Bool
-    , connMgr :: Manager
-    , _extraHeaders :: [Header]
-    , _creds :: Maybe LoginDetails
+    , rateLimit      :: Bool
+    , connMgr        :: Manager
+    , _extraHeaders  :: [Header]
+    , _creds         :: Maybe LoginDetails
     }
   deriving ()
 

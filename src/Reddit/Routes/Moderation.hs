@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Moderation where
 
-import Reddit.Types.Message
-import Reddit.Types.Moderation
-import Reddit.Types.Options
-import Reddit.Types.Subreddit
-import Reddit.Types.User
+import           Reddit.Types.Message
+import           Reddit.Types.Moderation
+import           Reddit.Types.Options
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Network.API.Builder.Routes
+import           Network.API.Builder.Routes
 
 bansListing :: Options BanID -> SubredditName -> Route
 bansListing opts (R sub) =

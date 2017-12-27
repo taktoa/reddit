@@ -6,12 +6,12 @@ module Reddit.Actions.Thing
   , Reddit.Actions.Thing.report
   ) where
 
-import Reddit.Types
-import Reddit.Types.Empty
-import Reddit.Types.Reddit
 import qualified Reddit.Routes.Thing as Route
+import           Reddit.Types
+import           Reddit.Types.Empty
+import           Reddit.Types.Reddit
 
-import Data.Text (Text)
+import           Data.Text           (Text)
 
 -- | Reply to a something (a post \/ comment \/ message)
 reply :: (Monad m, Thing thing)

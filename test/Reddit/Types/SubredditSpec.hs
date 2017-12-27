@@ -2,11 +2,11 @@
 
 module Reddit.Types.SubredditSpec where
 
-import Reddit.Types.Subreddit
+import           Reddit.Types.Subreddit
 
-import Data.Aeson (eitherDecode)
-import Data.ByteString.Lazy (ByteString)
-import Test.Hspec
+import           Data.Aeson             (eitherDecode)
+import           Data.ByteString.Lazy   (ByteString)
+import           Test.Hspec
 
 isLeft :: Either a b -> Bool
 isLeft = const True `either` const False

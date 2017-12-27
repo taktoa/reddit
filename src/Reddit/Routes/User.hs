@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.User where
 
-import Reddit.Types.Comment (CommentID)
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Subreddit
-import Reddit.Types.User
+import           Reddit.Types.Comment       (CommentID)
+import           Reddit.Types.Options
+import           Reddit.Types.Post
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Data.Text (Text)
-import Network.API.Builder.Routes
+import           Data.Text                  (Text)
+import           Network.API.Builder.Routes
 
 aboutUser :: Username -> Route
 aboutUser (Username user) = Route [ "user", user, "about.json" ]
@@ -29,9 +29,9 @@ userComments opts (Username user) =
         "GET"
 
 userPosts :: Options PostID -> Username -> Route
-userPosts opts (Username user) = 
+userPosts opts (Username user) =
   Route [ "user", user, "submitted" ]
-        [ "limit" =. limit opts 
+        [ "limit" =. limit opts
         , "before" =. before opts
         , "after" =. after opts ]
         "GET"

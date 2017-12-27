@@ -15,11 +15,11 @@ module Reddit.Actions.Voting
   , unvoteComment
   ) where
 
-import Reddit.Routes.Vote (VoteDirection(..))
-import Reddit.Types
-import Reddit.Types.Empty
-import Reddit.Types.Reddit
-import qualified Reddit.Routes as Route
+import qualified Reddit.Routes       as Route
+import           Reddit.Routes.Vote  (VoteDirection (..))
+import           Reddit.Types
+import           Reddit.Types.Empty
+import           Reddit.Types.Reddit
 
 vote :: (Monad m, Thing thing)
      => VoteDirection

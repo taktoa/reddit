@@ -2,15 +2,15 @@
 
 module Reddit.Types.ListingSpec where
 
-import Reddit.Types.Comment
-import Reddit.Types.Listing
+import           Reddit.Types.Comment
+import           Reddit.Types.Listing
 
-import Control.Monad
-import Data.Aeson (eitherDecode)
-import Network.API.Builder
-import Test.Hspec
-import Test.Hspec.QuickCheck
+import           Control.Monad
+import           Data.Aeson                 (eitherDecode)
 import qualified Data.ByteString.Lazy.Char8 as ByteString
+import           Network.API.Builder
+import           Test.Hspec
+import           Test.Hspec.QuickCheck
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

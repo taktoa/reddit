@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE Rank2Types        #-}
 
 module Reddit.Actions.CommentSpec where
 
-import Reddit.Actions.Comment
-import Reddit.Types.Comment
-import Reddit.Types.Listing
+import           Reddit.Actions.Comment
+import           Reddit.Types.Comment
+import           Reddit.Types.Listing
 
-import ConfigLoad
-import Test.Hspec
+import           ConfigLoad
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True
@@ -32,7 +32,7 @@ spec = describe "Reddit.Actions.Comment" $ do
     res `shouldSatisfy` isRight
     case res of
       Right (Listing _ _ cs) -> length cs `shouldBe` 2
-      Left _ -> expectationFailure "something failed"
+      Left _                 -> expectationFailure "something failed"
 
   it "should fail if we try to get an invalid comment" $ do
     res <- run reddit $ getCommentInfo (CommentID "garbage")

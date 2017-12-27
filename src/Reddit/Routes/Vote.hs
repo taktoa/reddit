@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Vote where
 
-import Reddit.Types.Thing
+import           Reddit.Types.Thing
 
-import Network.API.Builder.Query
-import Network.API.Builder.Routes
+import           Network.API.Builder.Query
+import           Network.API.Builder.Routes
 
 data VoteDirection = UpVote
                    | RemoveVote

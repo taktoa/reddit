@@ -3,7 +3,7 @@
 module Reddit.Utilities
   ( unescape ) where
 
-import Data.Text (Text)
+import           Data.Text (Text)
 import qualified Data.Text as Text
 
 -- | Quick-'n'-dirty unescaping function for posts / wiki pages etc..

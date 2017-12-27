@@ -1,15 +1,15 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Actions.Search where
 
-import Reddit.Routes.Search
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
+import           Reddit.Routes.Search
+import           Reddit.Types.Options
+import           Reddit.Types.Post
+import           Reddit.Types.Reddit
 import qualified Reddit.Types.SearchOptions as Search
+import           Reddit.Types.Subreddit
 
-import Data.Text (Text)
+import           Data.Text                  (Text)
 
 search :: (Monad m)
        => Maybe SubredditName

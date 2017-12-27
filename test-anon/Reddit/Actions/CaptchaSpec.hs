@@ -2,10 +2,10 @@
 
 module Reddit.Actions.CaptchaSpec where
 
-import Reddit
-import Utils
+import           Reddit
+import           Utils
 
-import Test.Hspec
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

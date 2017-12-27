@@ -13,15 +13,15 @@ module Reddit.Actions
   , module Reddit.Actions.Voting
   , module Reddit.Actions.Wiki ) where
 
-import Reddit.Actions.Captcha
-import Reddit.Actions.Comment
-import Reddit.Actions.Flair
-import Reddit.Actions.Message
-import Reddit.Actions.Moderation
-import Reddit.Actions.Post
-import Reddit.Actions.Search
-import Reddit.Actions.Subreddit
-import Reddit.Actions.Thing
-import Reddit.Actions.User
-import Reddit.Actions.Voting
-import Reddit.Actions.Wiki
+import           Reddit.Actions.Captcha
+import           Reddit.Actions.Comment
+import           Reddit.Actions.Flair
+import           Reddit.Actions.Message
+import           Reddit.Actions.Moderation
+import           Reddit.Actions.Post
+import           Reddit.Actions.Search
+import           Reddit.Actions.Subreddit
+import           Reddit.Actions.Thing
+import           Reddit.Actions.User
+import           Reddit.Actions.Voting
+import           Reddit.Actions.Wiki

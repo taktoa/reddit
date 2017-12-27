@@ -2,13 +2,13 @@
 
 module Reddit.Actions.UserSpec where
 
-import Reddit
-import Reddit.Types.Comment
-import Utils
+import           Reddit
+import           Reddit.Types.Comment
+import           Utils
 
-import Control.Monad
-import Data.Time.Clock
-import Test.Hspec
+import           Control.Monad
+import           Data.Time.Clock
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True
@@ -59,6 +59,6 @@ spec = describe "Reddit.Actions.User" $ do
     res <- runAnon $ isUsernameAvailable $ Username "Intolerable"
     res `shouldSatisfy` isRight
     case res of
-      Left _ -> return ()
+      Left _      -> return ()
       Right avail -> avail `shouldBe` False
 

@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Subreddit where
 
-import Reddit.Types.Subreddit hiding (title)
-import Reddit.Types.SubredditSettings
+import           Reddit.Types.Subreddit         hiding (title)
+import           Reddit.Types.SubredditSettings
 
-import Network.API.Builder.Routes
+import           Network.API.Builder.Routes
 
 aboutSubreddit :: SubredditName -> Route
 aboutSubreddit (R sub) = Route ["r", sub, "about"]

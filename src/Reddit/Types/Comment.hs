@@ -1,28 +1,28 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Comment where
 
-import Reddit.Parser
-import Reddit.Types.Listing
-import Reddit.Types.Post hiding (author)
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.Thing
-import Reddit.Types.User
-import Reddit.Utilities
+import           Reddit.Parser
+import           Reddit.Types.Listing
+import           Reddit.Types.Post
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.Thing
+import           Reddit.Types.User
+import           Reddit.Utilities
 
-import Control.Applicative
-import Data.Aeson
-import Data.Aeson.Types (Parser)
-import Data.Time.Clock
-import Data.Time.Clock.POSIX
-import Data.Monoid
-import Data.Text (Text)
-import Data.Traversable
-import Network.API.Builder.Query
-import Prelude
-import qualified Data.Text as Text
-import qualified Data.Vector as Vector
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Aeson.Types          (Parser)
+import           Data.Monoid
+import           Data.Text                 (Text)
+import qualified Data.Text                 as Text
+import           Data.Time.Clock
+import           Data.Time.Clock.POSIX
+import           Data.Traversable
+import qualified Data.Vector               as Vector
+import           Network.API.Builder.Query
+import           Prelude
 
 newtype CommentID = CommentID Text
   deriving (Show, Read, Eq, Ord)

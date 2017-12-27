@@ -2,12 +2,12 @@
 
 module Reddit.Actions.PostSpec where
 
-import Reddit
-import Reddit.Types.Post
-import Reddit.Types.Subreddit (SubredditID(..))
-import Utils
+import           Reddit
+import           Reddit.Types.Post
+import           Reddit.Types.Subreddit (SubredditID (..))
+import           Utils
 
-import Test.Hspec
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

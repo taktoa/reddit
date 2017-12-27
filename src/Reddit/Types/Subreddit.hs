@@ -1,16 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Subreddit where
 
-import Reddit.Parser
-import Reddit.Types.Thing
+import           Reddit.Parser
+import           Reddit.Types.Thing
 
-import Control.Applicative
-import Data.Aeson
-import Data.Monoid
-import Data.Text (Text)
-import Network.API.Builder.Query
-import Prelude
-import qualified Data.Text as Text
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text                 (Text)
+import qualified Data.Text                 as Text
+import           Network.API.Builder.Query
+import           Prelude
 
 newtype SubredditName = R Text
   deriving (Show, Read)
@@ -42,10 +42,10 @@ instance ToQuery SubredditID where
   toQuery k (SubredditID v) = [(k, v)]
 
 data Subreddit =
-  Subreddit { subredditID :: SubredditID
-            , name :: SubredditName
-            , title :: Text
-            , subscribers :: Integer
+  Subreddit { subredditID  :: SubredditID
+            , name         :: SubredditName
+            , title        :: Text
+            , subscribers  :: Integer
             , userIsBanned :: Maybe Bool }
   deriving (Show, Eq)
 

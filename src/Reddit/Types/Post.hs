@@ -1,26 +1,26 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards   #-}
 module Reddit.Types.Post
   ( module Reddit.Types.Post -- FIXME: specific export list
   ) where
 
-import Reddit.Parser
-import Reddit.Types.Listing
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.Thing
-import Reddit.Types.User
-import Reddit.Utilities
+import           Reddit.Parser
+import           Reddit.Types.Listing
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.Thing
+import           Reddit.Types.User
+import           Reddit.Utilities
 
-import Control.Applicative
-import Data.Aeson
-import Data.Time.Clock
-import Data.Time.Clock.POSIX
-import Data.Monoid
-import Data.Text (Text)
-import Network.API.Builder.Query
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text                 (Text)
+import           Data.Time.Clock
+import           Data.Time.Clock.POSIX
+import           Network.API.Builder.Query
+import           Prelude
 
 newtype PostID
   = PostID Text

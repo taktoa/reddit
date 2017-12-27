@@ -13,23 +13,23 @@ module Reddit.Actions.User
   , lookupUserFlair
   , setUserFlair ) where
 
-import Reddit.Types.Comment
-import Reddit.Types.Empty
-import Reddit.Types.Flair hiding (user)
-import Reddit.Types.Error
-import Reddit.Types.Listing
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.User
-import qualified Reddit.Routes.User as Route
+import qualified Reddit.Routes.User        as Route
+import           Reddit.Types.Comment
+import           Reddit.Types.Empty
+import           Reddit.Types.Error
+import           Reddit.Types.Flair        hiding (user)
+import           Reddit.Types.Listing
+import           Reddit.Types.Options
+import           Reddit.Types.Post
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Control.Monad
-import Data.Default.Class
-import Data.Text (Text)
-import Network.API.Builder.Error
-import qualified Data.Text as Text
+import           Control.Monad
+import           Data.Default.Class
+import           Data.Text                 (Text)
+import qualified Data.Text                 as Text
+import           Network.API.Builder.Error
 
 -- | Get the information Reddit exposes on user behind the specified username
 getUserInfo :: (Monad m)

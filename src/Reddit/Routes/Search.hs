@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Search where
 
-import Reddit.Types.Options
-import Reddit.Types.Post
-import Reddit.Types.Subreddit
+import           Reddit.Types.Options
+import           Reddit.Types.Post
 import qualified Reddit.Types.SearchOptions as Search
+import           Reddit.Types.Subreddit
 
-import Data.Maybe
-import Data.Text (Text)
-import Network.API.Builder.Routes
+import           Data.Maybe
+import           Data.Text                  (Text)
+import           Network.API.Builder.Routes
 
 searchRoute :: Maybe SubredditName
             -> Options PostID

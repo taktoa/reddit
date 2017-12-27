@@ -1,16 +1,16 @@
 module Reddit.Actions.Moderation where
 
-import Reddit.Routes.Moderation
-import Reddit.Types.Error
-import Reddit.Types.Listing
-import Reddit.Types.Message
-import Reddit.Types.Moderation
-import Reddit.Types.Options
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.User
+import           Reddit.Routes.Moderation
+import           Reddit.Types.Error
+import           Reddit.Types.Listing
+import           Reddit.Types.Message
+import           Reddit.Types.Moderation
+import           Reddit.Types.Options
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Network.API.Builder.Error
+import           Network.API.Builder.Error
 
 -- | Get a list of existing bans on a subreddit.
 --   User must be a moderator of the subreddit.
@@ -32,8 +32,8 @@ lookupBan u r = do
     Listing _ _ bs ->
       case bs of
         [b] -> return $ Just b
-        [] -> return Nothing
-        _-> failWith (APIError InvalidResponseError)
+        []  -> return Nothing
+        _   -> failWith (APIError InvalidResponseError)
 
 getModmail :: (Monad m)
            => RedditT m (Listing MessageID Message)

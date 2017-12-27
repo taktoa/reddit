@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Flair where
 
-import Reddit.Types.Options
-import Reddit.Types.Subreddit
-import Reddit.Types.User
+import           Reddit.Types.Options
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Data.Text (Text)
-import Network.API.Builder.Routes
-import qualified Data.Text as Text
+import           Data.Text                  (Text)
+import qualified Data.Text                  as Text
+import           Network.API.Builder.Routes
 
 flairList :: Options UserID -> SubredditName -> Route
 flairList opts (R r) =

@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE Rank2Types        #-}
 
 module Reddit.Actions.FlairSpec where
 
-import Reddit.Actions.Flair
+import           Reddit.Actions.Flair
 
-import ConfigLoad
-import Test.Hspec
+import           ConfigLoad
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

@@ -2,7 +2,7 @@
 
 module Reddit.Types.WikiSpec where
 
-import Test.Hspec
+import           Test.Hspec
 
 main :: IO ()
 main = hspec spec

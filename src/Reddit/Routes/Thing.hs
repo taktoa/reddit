@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Thing where
 
-import Reddit.Types.Thing
+import           Reddit.Types.Thing
 
-import Data.Text (Text)
-import Network.API.Builder.Routes
+import           Data.Text                  (Text)
+import           Network.API.Builder.Routes
 
 reply :: Thing a => a -> Text -> Route
 reply thingID body = Route [ "api", "comment" ]

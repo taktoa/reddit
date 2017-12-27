@@ -5,12 +5,12 @@ module Reddit.Actions.Subreddit
   , setSubredditSettings
   ) where
 
-import Reddit.Types
-import Reddit.Types.Empty
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.SubredditSettings
-import qualified Reddit.Routes as Route
+import qualified Reddit.Routes                  as Route
+import           Reddit.Types
+import           Reddit.Types.Empty
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.SubredditSettings
 
 -- | Get the info for a specific subreddit. This info includes things like
 --   sidebar contents, description and ID.

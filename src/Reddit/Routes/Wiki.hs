@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Wiki where
 
-import Reddit.Types.Subreddit
+import           Reddit.Types.Subreddit
 
-import Data.Text (Text)
-import Network.API.Builder.Routes
+import           Data.Text                  (Text)
+import           Network.API.Builder.Routes
 
 wikiPage :: SubredditName -> Text -> Route
 wikiPage (R sub) page =

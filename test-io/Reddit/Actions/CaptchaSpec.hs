@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE Rank2Types        #-}
 
 module Reddit.Actions.CaptchaSpec where
 
-import Reddit.Actions.Captcha
+import           Reddit.Actions.Captcha
 
-import ConfigLoad
-import Test.Hspec
+import           ConfigLoad
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

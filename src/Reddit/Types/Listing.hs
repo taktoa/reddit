@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Listing where
 
-import Reddit.Parser
+import           Reddit.Parser
 
-import Control.Applicative
-import Data.Aeson
-import Data.Traversable
-import Data.Monoid
-import Network.API.Builder.Query
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Traversable
+import           Network.API.Builder.Query
+import           Prelude
 
 data ListingType = Hot
                  | New
@@ -19,14 +19,14 @@ data ListingType = Hot
 
 instance ToQuery ListingType where
   toQuery k t = return $ (,) k $ case t of
-    Hot -> "hot"
-    New -> "new"
-    Rising -> "rising"
+    Hot           -> "hot"
+    New           -> "new"
+    Rising        -> "rising"
     Controversial -> "controversial"
-    Top -> "top"
+    Top           -> "top"
 
-data Listing t a = Listing { before :: Maybe t
-                           , after :: Maybe t
+data Listing t a = Listing { before   :: Maybe t
+                           , after    :: Maybe t
                            , contents :: [a] }
   deriving (Show, Read, Eq)
 

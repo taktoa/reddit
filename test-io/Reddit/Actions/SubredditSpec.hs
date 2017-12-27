@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE Rank2Types        #-}
 
 module Reddit.Actions.SubredditSpec where
 
-import Reddit.Actions.Subreddit
-import Reddit.Types.Subreddit
+import           Reddit.Actions.Subreddit
+import           Reddit.Types.Subreddit
 
-import ConfigLoad
-import Test.Hspec
+import           ConfigLoad
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

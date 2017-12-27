@@ -1,19 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE Rank2Types        #-}
 
 module Reddit.Actions.UserSpec where
 
-import Reddit.Actions.User
-import Reddit.Types.Comment
-import Reddit.Types.Listing
-import Reddit.Types.Options
-import Reddit.Types.User
+import           Reddit.Actions.User
+import           Reddit.Types.Comment
+import           Reddit.Types.Listing
+import           Reddit.Types.Options
+import           Reddit.Types.User
 
-import ConfigLoad
-import Control.Monad
-import Data.Maybe
-import Data.Time.Clock
-import Test.Hspec
+import           ConfigLoad
+import           Control.Monad
+import           Data.Maybe
+import           Data.Time.Clock
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True
@@ -69,5 +69,5 @@ spec = describe "Reddit.Actions.User" $ do
     res <- run reddit $ isUsernameAvailable username
     res `shouldSatisfy` isRight
     case res of
-      Left _ -> return ()
+      Left _      -> return ()
       Right avail -> avail `shouldBe` False

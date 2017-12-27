@@ -2,11 +2,11 @@
 
 module Reddit.Types.UserSpec where
 
-import Reddit.Types.User
+import           Reddit.Types.User
 
-import Data.Aeson (eitherDecode)
-import Test.Hspec
+import           Data.Aeson                 (eitherDecode)
 import qualified Data.ByteString.Lazy.Char8 as ByteString
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

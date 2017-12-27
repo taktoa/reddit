@@ -1,15 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Post where
 
-import Reddit.Types.Options
-import Reddit.Types.Comment (CommentID(..))
-import Reddit.Types.Post (PostID(..))
-import Reddit.Types.Subreddit (SubredditName(..))
-import Reddit.Types.Thing
+import           Reddit.Types.Comment       (CommentID (..))
+import           Reddit.Types.Options
+import           Reddit.Types.Post          (PostID (..))
+import           Reddit.Types.Subreddit     (SubredditName (..))
+import           Reddit.Types.Thing
 
-import Data.Text (Text)
-import Network.API.Builder.Query
-import Network.API.Builder.Routes
+import           Data.Text                  (Text)
+import           Network.API.Builder.Query
+import           Network.API.Builder.Routes
 
 postsListing :: Options PostID -> Maybe SubredditName -> Text -> Route
 postsListing opts r t =

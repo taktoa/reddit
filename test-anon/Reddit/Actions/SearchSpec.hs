@@ -2,11 +2,11 @@
 
 module Reddit.Actions.SearchSpec where
 
-import Reddit
-import Reddit.Types.SearchOptions
-import Utils
+import           Reddit
+import           Reddit.Types.SearchOptions
+import           Utils
 
-import Test.Hspec
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True
@@ -27,5 +27,5 @@ spec = describe "Reddit.Actions.Search" $ do
   it "should be able to limit the search results" $  do
     res <- runAnon $ search (Just $ R "programming") (Options Nothing (Just 5)) Hot "haskell"
     case res of
-      Left _ -> expectationFailure "search failed"
+      Left _                 -> expectationFailure "search failed"
       Right (Listing _ _ rs) -> length rs `shouldBe` 5

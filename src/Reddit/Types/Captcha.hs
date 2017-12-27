@@ -1,15 +1,15 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Captcha where
 
-import Reddit.Types.Reddit
+import           Reddit.Types.Reddit
 
-import Control.Applicative
-import Data.Aeson
-import Data.Monoid
-import Data.Text (Text)
-import Network.API.Builder
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text           (Text)
+import           Network.API.Builder
+import           Prelude
 
 newtype CaptchaID = CaptchaID Text
   deriving (Read, Show, Eq, Ord)

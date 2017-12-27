@@ -6,18 +6,18 @@ module Reddit.Actions.Flair
   , flairCSV
   ) where
 
-import Reddit.Routes.Flair
-import Reddit.Types.Empty
-import Reddit.Types.Flair
-import Reddit.Types.Options
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.User
+import           Reddit.Routes.Flair
+import           Reddit.Types.Empty
+import           Reddit.Types.Flair
+import           Reddit.Types.Options
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.User
 
-import Control.Monad
-import Data.Aeson
-import Data.Default.Class
-import Data.Text (Text)
+import           Control.Monad
+import           Data.Aeson
+import           Data.Default.Class
+import           Data.Text              (Text)
 
 -- | Get the flair list for a subreddit.
 --   Requires moderator privileges on the subreddit.

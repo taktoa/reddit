@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Message where
 
-import Reddit.Types.Options
-import Reddit.Types.Message
-import Reddit.Types.Thing
-import Reddit.Types.User
+import           Reddit.Types.Message
+import           Reddit.Types.Options
+import           Reddit.Types.Thing
+import           Reddit.Types.User
 
-import Data.Text (Text)
-import Network.API.Builder.Routes
+import           Data.Text                  (Text)
+import           Network.API.Builder.Routes
 
 inbox :: Bool -> Options MessageKind -> Route
 inbox shouldMark opts =

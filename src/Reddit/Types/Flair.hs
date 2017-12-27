@@ -1,18 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Flair where
 
-import Reddit.Types.Listing
-import Reddit.Types.User
+import           Reddit.Types.Listing
+import           Reddit.Types.User
 
-import Control.Applicative
-import Data.Aeson
-import Data.Monoid
-import Data.Text (Text)
-import Prelude
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text            (Text)
+import           Prelude
 
 
-data Flair = Flair { user :: Username
-                   , text :: Maybe Text
+data Flair = Flair { user     :: Username
+                   , text     :: Maybe Text
                    , cssClass :: Maybe Text }
   deriving (Show, Read, Eq)
 

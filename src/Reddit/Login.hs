@@ -2,10 +2,10 @@
 module Reddit.Login
   ( login ) where
 
-import Reddit.Types.Reddit
+import           Reddit.Types.Reddit
 
-import Data.Text (Text)
-import Network.API.Builder hiding (runRoute)
+import           Data.Text           (Text)
+import           Network.API.Builder hiding (runRoute)
 
 loginRoute :: Text -> Text -> Route
 loginRoute user pass = Route [ "api", "login" ]

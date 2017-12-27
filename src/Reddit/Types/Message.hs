@@ -1,32 +1,32 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Message where
 
-import Reddit.Parser
-import Reddit.Types.Comment
-import Reddit.Types.Listing
-import Reddit.Types.Reddit
-import Reddit.Types.Thing
-import Reddit.Types.User
-import Reddit.Utilities
+import           Reddit.Parser
+import           Reddit.Types.Comment
+import           Reddit.Types.Listing
+import           Reddit.Types.Reddit
+import           Reddit.Types.Thing
+import           Reddit.Types.User
+import           Reddit.Utilities
 
-import Control.Applicative
-import Data.Aeson
-import Data.Maybe
-import Data.Monoid
-import Data.Text (Text)
-import Network.API.Builder.Query
-import Prelude
-import qualified Data.Vector as Vector
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Maybe
+import           Data.Monoid
+import           Data.Text                 (Text)
+import qualified Data.Vector               as Vector
+import           Network.API.Builder.Query
+import           Prelude
 
 data Message = Message { messageID :: MessageKind
-                       , new :: Bool
-                       , to :: Username
-                       , from :: Maybe Username
-                       , subject :: Text
-                       , body :: Text
-                       , bodyHTML :: Text
-                       , replies :: Listing MessageKind Message }
+                       , new       :: Bool
+                       , to        :: Username
+                       , from      :: Maybe Username
+                       , subject   :: Text
+                       , body      :: Text
+                       , bodyHTML  :: Text
+                       , replies   :: Listing MessageKind Message }
   deriving (Show, Read, Eq)
 
 instance FromJSON Message where
@@ -52,13 +52,13 @@ isPrivateMessage :: Message -> Bool
 isPrivateMessage m =
   case messageID m of
     PrivateMessage _ -> True
-    _ -> False
+    _                -> False
 
 isCommentReply :: Message -> Bool
 isCommentReply m =
   case messageID m of
     CommentMessage _ -> True
-    _ -> False
+    _                -> False
 
 data MessageID = MessageID Text
   deriving (Show, Read, Eq, Ord)
@@ -79,7 +79,7 @@ instance FromJSON (POSTWrapped MessageID) where
     ms <- (o .: "json") >>= (.: "data") >>= (.: "things")
     case Vector.toList ms of
       [v] -> POSTWrapped <$> (v .: "data" >>= (.: "id"))
-      _ -> mempty
+      _   -> mempty
   parseJSON _ = mempty
 
 messagePrefix :: Text

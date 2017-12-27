@@ -7,9 +7,9 @@ module Reddit.Actions.Captcha
   ( needsCaptcha
   , newCaptcha ) where
 
-import Reddit.Types.Captcha
-import Reddit.Types.Reddit
 import qualified Reddit.Routes.Captcha as Route
+import           Reddit.Types.Captcha
+import           Reddit.Types.Reddit
 
 -- | Find out if the account currently logged in requires a captcha to be
 --   submitted for certain requests, like sending a private message or

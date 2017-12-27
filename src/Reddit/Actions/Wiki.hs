@@ -4,13 +4,13 @@ module Reddit.Actions.Wiki
   , editWikiPage
   ) where
 
-import Reddit.Types.Empty
-import Reddit.Types.Reddit
-import Reddit.Types.Subreddit
-import Reddit.Types.Wiki
-import qualified Reddit.Routes as Route
+import qualified Reddit.Routes          as Route
+import           Reddit.Types.Empty
+import           Reddit.Types.Reddit
+import           Reddit.Types.Subreddit
+import           Reddit.Types.Wiki
 
-import Data.Text (Text)
+import           Data.Text              (Text)
 
 -- | Get the specified wiki page on a particular subreddit. Requires
 --   permission to view the specified wiki page.
@@ -23,7 +23,7 @@ getWikiPage sub page = runRoute $ Route.wikiPage sub page
 -- | Edit the specified wiki page on a particular subreddit. Requires
 --   permission to edit the specified wiki page.
 editWikiPage :: (Monad m)
-             => SubredditName 
+             => SubredditName
              -- ^ Subreddit whose wiki to modify
              -> Text
              -- ^ The name of the page you're editing

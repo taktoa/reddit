@@ -26,19 +26,19 @@ module Reddit.Actions.Post
   , setContestMode
   ) where
 
-import qualified Reddit.Routes as Route
-import Reddit.Types
-import Reddit.Types.Captcha
-import Reddit.Types.Comment
-import Reddit.Types.Empty
-import Reddit.Types.Listing
-import Reddit.Types.Reddit
+import qualified Reddit.Routes             as Route
+import           Reddit.Types
+import           Reddit.Types.Captcha
+import           Reddit.Types.Comment
+import           Reddit.Types.Empty
+import           Reddit.Types.Listing
+import           Reddit.Types.Reddit
 
-import Data.Default.Class
-import Data.Text (Text)
-import Network.API.Builder.Error (APIError(..))
-import qualified Data.Char as Char
-import qualified Data.Text as Text
+import qualified Data.Char                 as Char
+import           Data.Default.Class
+import           Data.Text                 (Text)
+import qualified Data.Text                 as Text
+import           Network.API.Builder.Error (APIError (..))
 
 -- | Given a 'PostID', 'getPostInfo' will return the full details for that post.
 getPostInfo :: (Monad m)
@@ -63,7 +63,7 @@ getPostsInfo ps
       then do res <- runRoute $ Route.aboutPosts ps
               case res of
                 Listing _ _ posts | sameLength posts ps -> pure res
-                _ -> failWith (APIError InvalidResponseError)
+                _                 -> failWith (APIError InvalidResponseError)
       else failWith (APIError TooManyRequests)
   where
     sameLength (_:xs) (_:ys) = sameLength xs ys

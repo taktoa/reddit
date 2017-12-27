@@ -2,13 +2,13 @@
 
 module ConfigLoad where
 
-import Network.HTTP.Client
-import Network.HTTP.Client.TLS
-import Reddit
-import Reddit.Login
-import System.Exit
-import qualified Data.Text as Text
-import qualified Data.Text.IO as Text
+import qualified Data.Text               as Text
+import qualified Data.Text.IO            as Text
+import           Network.HTTP.Client
+import           Network.HTTP.Client.TLS
+import           Reddit
+import           Reddit.Login
+import           System.Exit
 
 newtype RunReddit
   = RunReddit

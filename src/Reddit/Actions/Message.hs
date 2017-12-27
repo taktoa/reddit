@@ -10,20 +10,20 @@ module Reddit.Actions.Message
   , sendMessageWithCaptcha
   , replyMessage ) where
 
-import Reddit.Types.Captcha
-import Reddit.Types.Empty
-import Reddit.Types.Listing
-import Reddit.Types.Message
-import Reddit.Types.Options
-import Reddit.Types.Reddit
-import Reddit.Types.Thing
-import Reddit.Types.User
-import qualified Reddit.Routes.Message as Route
-import qualified Reddit.Routes.Thing as Route
+import qualified Reddit.Routes.Message     as Route
+import qualified Reddit.Routes.Thing       as Route
+import           Reddit.Types.Captcha
+import           Reddit.Types.Empty
+import           Reddit.Types.Listing
+import           Reddit.Types.Message
+import           Reddit.Types.Options
+import           Reddit.Types.Reddit
+import           Reddit.Types.Thing
+import           Reddit.Types.User
 
-import Data.Default.Class
-import Data.Text (Text)
-import Network.API.Builder.Query
+import           Data.Default.Class
+import           Data.Text                 (Text)
+import           Network.API.Builder.Query
 
 -- | Get the message inbox for the current user.
 getInbox :: (Monad m)

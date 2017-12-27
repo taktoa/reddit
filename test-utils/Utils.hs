@@ -2,8 +2,8 @@
 
 module Utils where
 
-import Reddit
-import Data.Default.Class
+import           Data.Default.Class
+import           Reddit
 
 runAnon :: Reddit a -> IO (Either (APIError RedditError) a)
 runAnon =

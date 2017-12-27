@@ -2,19 +2,19 @@
 
 module Reddit.Types.CommentSpec where
 
-import Reddit.Types.Comment
-import Reddit.Types.Listing
-import Reddit.Types.Subreddit hiding (subredditID)
-import Reddit.Types.User
+import           Reddit.Types.Comment
+import           Reddit.Types.Listing
+import           Reddit.Types.Subreddit     hiding (subredditID)
+import           Reddit.Types.User
 
-import Control.Monad
-import Data.ByteString.Lazy (ByteString)
-import Data.Maybe
-import Data.Time.Clock
-import Data.Aeson (eitherDecode)
-import Test.Hspec
+import           Control.Monad
+import           Data.Aeson                 (eitherDecode)
+import           Data.ByteString.Lazy       (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as ByteString
-import qualified Data.Text as Text
+import           Data.Maybe
+import qualified Data.Text                  as Text
+import           Data.Time.Clock
+import           Test.Hspec
 
 isRight :: Either a b -> Bool
 isRight = const False `either` const True

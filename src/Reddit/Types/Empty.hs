@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Types.Empty ( nothing ) where
 
-import Control.Monad (liftM)
-import Data.Aeson
-import Data.Aeson.Types
-import Data.Monoid
-import Prelude
+import           Control.Monad       (liftM)
+import           Data.Aeson
+import           Data.Aeson.Types
 import qualified Data.HashMap.Strict as Hash
+import           Data.Monoid
+import           Prelude
 
 -- | More specific @void@ for forcing a @Empty@ @FromJSON@ instance
 nothing :: Monad m => m Empty -> m ()

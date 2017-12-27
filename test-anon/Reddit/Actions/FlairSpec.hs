@@ -2,10 +2,10 @@
 
 module Reddit.Actions.FlairSpec where
 
-import Reddit
-import Utils
+import           Reddit
+import           Utils
 
-import Test.Hspec
+import           Test.Hspec
 
 isLeft :: Either a b -> Bool
 isLeft = const True `either` const False

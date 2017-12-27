@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Reddit.Routes.Captcha where
 
-import Reddit.Types.Captcha
+import           Reddit.Types.Captcha
 
-import Network.API.Builder.Routes
+import           Network.API.Builder.Routes
 
 needsCaptcha :: Route
 needsCaptcha = Route [ "api", "needs_captcha.json" ]

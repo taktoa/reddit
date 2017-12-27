@@ -1,6 +1,6 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings          #-}
 module Reddit.Types.Reddit
   ( Reddit
   , RedditT(..)
@@ -22,23 +22,23 @@ module Reddit.Types.Reddit
   , addAPIType
   ) where
 
-import Reddit.Types.Error
+import           Reddit.Types.Error
 
-import Control.Applicative
-import Control.Monad.IO.Class
-import Control.Monad.Trans.Free
-import Control.Monad.Trans.Class
-import Data.Aeson
-import Data.ByteString.Lazy (ByteString)
-import Data.Monoid
-import Data.Text (Text)
-import Data.Time.Clock
-import Network.API.Builder hiding (runRoute)
-import Network.HTTP.Client hiding (path)
-import Network.HTTP.Types
-import Prelude
-import Text.Read (readMaybe)
-import qualified Data.ByteString.Char8 as BS
+import           Control.Applicative
+import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Class
+import           Control.Monad.Trans.Free
+import           Data.Aeson
+import qualified Data.ByteString.Char8     as BS
+import           Data.ByteString.Lazy      (ByteString)
+import           Data.Monoid
+import           Data.Text                 (Text)
+import           Data.Time.Clock
+import           Network.API.Builder       hiding (runRoute)
+import           Network.HTTP.Client       hiding (path)
+import           Network.HTTP.Types
+import           Prelude
+import           Text.Read                 (readMaybe)
 
 type Reddit a = RedditT IO a
 
@@ -120,12 +120,12 @@ instance Functor POSTWrapped where
 
 data RateLimits =
   RateLimits { should :: ShouldRateLimit
-             , info :: Maybe RateLimitInfo }
+             , info   :: Maybe RateLimitInfo }
   deriving (Show, Read, Eq)
 
 type ShouldRateLimit = Bool
 
-data RateLimitInfo = RateLimitInfo { used :: Integer
+data RateLimitInfo = RateLimitInfo { used      :: Integer
                                    , remaining :: Integer
                                    , resetTime :: UTCTime }
   deriving (Show, Read, Eq)

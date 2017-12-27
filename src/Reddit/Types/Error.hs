@@ -3,14 +3,14 @@ module Reddit.Types.Error
   ( RedditError (..)
   ) where
 
-import Control.Applicative
-import Data.Aeson
-import Data.Monoid
-import Data.Text (Text)
-import Data.Vector ((!?))
-import Network.API.Builder.Receive
-import Prelude
-import qualified Data.Vector as V
+import           Control.Applicative
+import           Data.Aeson
+import           Data.Monoid
+import           Data.Text                   (Text)
+import           Data.Vector                 ((!?))
+import qualified Data.Vector                 as V
+import           Network.API.Builder.Receive
+import           Prelude
 
 data RedditError
   = RedditError Object
